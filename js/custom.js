@@ -114,7 +114,6 @@ River.generate = (function () {
     function _viewSettings() {
         var viewCookie = River.methods.getCookie('river-view');
         ( viewCookie === 'collapsed' ) ? _collapse() : _expand();
-        //console.log('_viewSettings');
     };
     
     // pass data to template, populate stream, mark last item
@@ -127,7 +126,6 @@ River.generate = (function () {
             $('.last-old').removeClass('last-old');
             $stream.find('#' + marker).addClass('last-old');
         }
-        //console.log('_populate');
     };
     
     // expand stream items
@@ -135,7 +133,6 @@ River.generate = (function () {
         River.methods.setCookie('river-view', 'expanded', 30);
         $('#stream-view').text('Switch to collapsed view');
         $stream.removeClass('collapsed');
-        //console.log('_expand');
     };
     
     // collapse stream items
@@ -143,7 +140,6 @@ River.generate = (function () {
         River.methods.setCookie('river-view', 'collapsed', 30);
         $('#stream-view').text('Switch to expanded view');
         $stream.addClass('collapsed');
-        //console.log('_collapse');
     };
     
     return {
@@ -157,7 +153,7 @@ River.generate = (function () {
 River.methods = (function () {
     function _getDomain(url) {
         var domain;
-        if (( url != null ) && (url != "")) {
+        if (( url !== null ) && (url !== "")) {
             domain = url.split('?')[0]; // cleans urls of form http://domain.com?a=1&b=2
             domain = domain.split('/')[2];
             domain = domain.replace("www.","").replace("www2.", "").replace("feedproxy.", "").replace("feeds.", "");
