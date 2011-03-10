@@ -1,5 +1,9 @@
 #  NewsRiver UI
 
+This is a client-side, river of news UI that consumes a JSONP file generated using Dave Winer's [River2](http://newsriver.org/river2.html) software.
+
+Example: [http://river.nicolasgallagher.com](http://river.nicolasgallagher.com)
+
 ## Changelog:
 
 ### v.0.5.0 : 9 March 2011
@@ -39,11 +43,7 @@
 * Repopulates the stream when the notice is clicked.
 * Changed the way the datetime format used on blocks of updates. Time comes last, no longer displays seconds.
 
-## Summary:
-
-This is a client-side, river of news UI. It is created to display a JSONP file that is generated using Dave Winer's [River2](http://newsriver.org/river2.html) software.
-
-### River resources
+## Resources:
 
 * [River of News (Google Group)](http://groups.google.com/group/river-of-news)
 * [How to: River2 is a River of News](http://newsriver.org/river2.html)
