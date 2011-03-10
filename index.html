@@ -1,0 +1,118 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <title>My Beautiful River</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="All my news in one place, updated in real time."> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/default.css">
+    <script>
+        var River = River || {};
+        River.settings = {
+            url : 'http://daveriver.scripting.com/iowaRiver3.js',
+            callback : 'onGetRiverStream',
+            social : false
+        };
+    </script>
+</head>
+<body> 
+
+<div id="header" role="banner">
+    <div class="hgroup">
+        <h1>My Beautiful River</h1>
+        <h2>All my news in one place, updated in real time.</h2>
+    </div>    
+</div>
+
+<div id="stream" role="main">
+    <p class="notice">This website requires JavaScript.</p>
+</div>
+
+<div id="footer" role="contentinfo">
+    <p>
+        <a class="icon" href="http://cyber.law.harvard.edu/rss/rss.html"><img src="/images/rss.gif" width="65" height="59" alt="Love RSS!"></a>
+        The fine print: Programmed by <a href="http://scripting.com/stories/2010/12/16/wikiriverorgIsFlowingNicel.html">Dave Winer</a>, using the <a href="http://newsriver.org/river2.html">River2</a> aggregator running in the <a href="http://editor.opml.org/">OPML Editor</a>. Interface design and development by <a href="http://nicolasgallagher.com">Nicolas Gallagher</a>, get the <a href="http://github.com/necolas/newsriver-ui/">NewsRiver UI</a> source on Github. Collaborative development on the <a href="http://groups.google.com/group/river-of-news/browse_thread/thread/2733bd72b623171f">River Of News</a> mailing list by Martin Duffy, Shawn McCollum, Ken Booth, Daniel Bachhuber, and Havagan.
+    </p>
+</div>
+
+<script id="template" type="text/x-jquery-tmpl">
+    <div id="stream-header">
+        <a id="stream-view" href="#">Switch to collapsed view</a></li>
+        <p id="stream-updated">Updated <span class="time">${dateFormat(metadata.whenGMT, 'timeDate')}</span></p>
+    </div>
+
+    <a id="stream-notice" href="#"></a>
+
+    <div id="stream-items">
+
+    {{each(f,feed) updatedFeeds.updatedFeed}}
+
+        <div class="section">
+            <div class="header">
+                <h2>
+                    {{if websiteUrl}}<a href="${websiteUrl}">{{/if}}<img class="icon" src="${River.methods.getFavicon(websiteUrl)}" alt="">{{if websiteUrl}}</a>{{/if}}
+                    {{if websiteUrl}}<a href="${websiteUrl}">{{/if}}${feedTitle}{{if websiteUrl}}</a>{{/if}}
+                    (<a href="${feedUrl}" title="Subscribe to ${feedTitle}">Feed</a>)
+                </h2>
+                <span class="time">${dateFormat(whenLastUpdate, 'timeDate')}</span>
+            </div>
+
+        {{each(i,item) item}}
+        
+            <div class="article" id="${item.id}">
+                <div class="header">
+                    <h3>
+                    {{if item.permaLink || item.link}}<a href="${item.permaLink || item.link}" rel="external">{{/if}}
+                    {{if item.title}}
+                        ${item.title}
+                    {{else}}
+                        ${River.methods.getText(item.body)}
+                    {{/if}}
+                    {{if item.permaLink || item.link}}</a>{{/if}}
+                    </h3>
+                </div>
+                
+            {{if item.title && item.body}}
+                <div class="description">
+                
+                {{each(t,thumbnail) item.thumbnail}}
+                    <img class="thumbnail" src="${thumbnail.url}" width="${thumbnail.width}" height="${thumbnail.height}" alt="">
+                {{/each}}
+
+                    ${River.methods.getText(item.body)}
+                </div>
+            {{/if}}
+        
+                <div class="footer">
+                    <span class="time">${River.methods.prettyDate(item.pubDate)}</span>
+                    <ul class="actions">
+                    {{if River.settings.social === true && (item.permaLink || item.link)}}
+                        <li><a href="http://twitter.com/share?text={{if item.title}}${item.title}{{else}}${River.methods.getText(item.body)}{{/if}}&amp;url={{if item.permaLink}}${encodeURIComponent(item.permaLink)}{{else}}${encodeURIComponent(item.link)}{{/if}}" rel="external nofollow" target="_blank" title="Share this on Twitter">Tweet</a></li>
+                        <li><a href="http://www.facebook.com/sharer.php?t={{if item.title}}${item.title}{{else}}${River.methods.getText(item.body)}{{/if}}&amp;u={{if item.permaLink}}${encodeURIComponent(item.permaLink)}{{else}}${encodeURIComponent(item.link)}{{/if}}" rel="external nofollow" target="_blank" title="Share this on Facebook">Share</a></li>
+                    {{/if}}
+                    {{if item.comments}}
+                        <li><a href="${item.comments}" rel="external nofollow" target="_blank">Comment</a></li>
+                    {{/if}}
+                    {{each(e,enclosure) item.enclosure}}
+                        <li class="enclosure ${River.methods.getMediaType(enclosure.type)}"><a href="${enclosure.url}">Download enclosure (${enclosure.type}, ${River.methods.getEnclosureSize(enclosure.length)})</a></li>
+                    {{/each}}
+                    </ul>
+                </div>
+            </div>
+ 
+        {{/each}}
+
+        </div>
+
+    {{/each}}
+
+    </div>
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/js/jquery-1.5.1.min.js">\x3C/script>')</script>
+<script src="/js/jquery.tmpl.min.js"></script> 
+<script src="/js/custom.js"></script> 
+
+</body>
+</html> 
