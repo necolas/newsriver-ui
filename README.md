@@ -9,6 +9,7 @@ Example: [http://river.nicolasgallagher.com](http://river.nicolasgallagher.com)
 ### v.0.5.0 : 9 March 2011
 
 #### General
+* Automatically checks for updates to the feed.
 * Added a favicon and apple-touch-icon.
 * Added _json-example.js; only used for localhost debugging.
 * Switched to Google CDN jQuery (with local fallback).
