@@ -29,77 +29,78 @@ River.generate = (function () {
     function _loading() {
         var source = River.methods.getDomain(url);
         $stream.html('<p class="notice">Loading news from <b>' + source + '</b>, please wait&hellip;</p><div id="loader"></div>');
-    }
+    };
     
     function _init(url, callback) {
-        var jxhr, count, lastItemId, newestItem, riverUpdated, timeoutMsg, errorMsg;
+        var count, lastItemId, newestItem, riverUpdated, timeoutMsg, errorMsg;
         
         // get json feed data
-        jxhr = $.ajax({ 
+        $.ajax({ 
             dataType : "jsonp",
             jsonpCallback : callback,
             url : url,
-            timeout : 8000
-        })
-        
-        .success(function (data, status) {
-            lastItemId = $('.article:first').attr('id');
-            count = 0;
-            newestItem = data.updatedFeeds.updatedFeed[0].item[0].id;
-            riverUpdated = dateFormat(data.metadata.whenGMT, 'timeDate');
+            timeout : 8000,
             
-            // if the stream is empty...
-            if ( ! lastItemId ) {
-                _populate(data);
-                // check river data every 5 minutes
-                setInterval(function () {
-                    _init(url, callback);
-                }, 300000);
-            }
-            
-            // otherwise...
-            else { 
-                // check for new items
-                if ( lastItemId !== newestItem ) {
-                    $.each(data.updatedFeeds.updatedFeed, function (f, feed) {
-                        $.each(data.updatedFeeds.updatedFeed[f].item, function (i, item) {
-                            // count the number of newer items
-                            if ( item.id > lastItemId ) {
-                                count ++;
-                            }
-                        });
-                    });
-                    
-                    // indicate that there are new items
-                    var noticeText = ( (count <= 50) ? count : '50+' ) + ' new items';
-                    $('#stream-notice').die().live('click', function (e) {
-                        e.preventDefault();
-                        _populate(data, lastItemId);
-                    }).text(noticeText).fadeSlideDown();
-                    $('#stream-updated .time').text(riverUpdated);
-                } 
+            success : function (data, status) {
+                lastItemId = $('.article:first').attr('id');
+                count = 0;
+                newestItem = data.updatedFeeds.updatedFeed[0].item[0].id;
+                riverUpdated = dateFormat(data.metadata.whenGMT, 'timeDate');
                 
+                // if the stream is empty...
+                if ( ! lastItemId ) {
+                    _populate(data);
+                    // check river data every 5 minutes
+                    setInterval(function () {
+                        _init(url, callback);
+                    }, 300000);
+                }
+                
+                // otherwise...
+                else { 
+                    // check for new items
+                    if ( lastItemId !== newestItem ) {
+                        $.each(data.updatedFeeds.updatedFeed, function (f, feed) {
+                            $.each(data.updatedFeeds.updatedFeed[f].item, function (i, item) {
+                                // count the number of newer items
+                                if ( item.id > lastItemId ) {
+                                    count ++;
+                                }
+                            });
+                        });
+                        
+                        // indicate that there are new items
+                        var noticeText = ( (count <= 50) ? count : '50+' ) + ' new items';
+                        $('#stream-notice').die().live('click', function (e) {
+                            e.preventDefault();
+                            _populate(data, lastItemId);
+                        }).text(noticeText).fadeSlideDown();
+                        $('#stream-updated .time').text(riverUpdated);
+                    } 
+                    
+                    else {
+                        $('#stream-updated .time').text(riverUpdated);
+                    }
+                }
+            },
+            
+            error : function (status) { 
+                var statusText = status.statusText;
+
+                // if the stream is empty...
+                if ( ! lastItemId ) {
+                    timeoutMsg = '<p class="notice">Sorry, your request has timed out. Please try again.</p>';
+                    errorMsg = '<p class="notice">Sorry, something has gone wrong. Please try again.</p>';
+                    ( statusText == 'timeout' ) ? $stream.html(timeoutMsg) : $stream.html(errorMsg);
+                }
+
+                // otherwise...
                 else {
-                    $('#stream-updated .time').text(riverUpdated);
+                    //console.log('update error');
                 }
             }
-        })
-        
-        .error(function (status) { 
-            var statusText = status.statusText;
-
-            // if the stream is empty...
-            if ( ! lastItemId ) {
-                timeoutMsg = '<p class="notice">Sorry, your request has timed out. Please try again.</p>';
-                errorMsg = '<p class="notice">Sorry, something has gone wrong. Please try again.</p>';
-                ( statusText == 'timeout' ) ? $stream.html(timeoutMsg) : $stream.html(errorMsg);
-            }
-
-            // otherwise...
-            else {
-                //console.log('update error');
-            }
         });
+
     };
     
     // stream view toggle
@@ -153,7 +154,7 @@ River.generate = (function () {
 River.methods = (function () {
     function _getDomain(url) {
         var domain;
-        if (( url !== null ) && (url !== "")) {
+        if (( url !== null ) && ( url !== "" )) {
             domain = url.split('?')[0]; // cleans urls of form http://domain.com?a=1&b=2
             domain = domain.split('/')[2];
             domain = domain.replace("www.","").replace("www2.", "").replace("feedproxy.", "").replace("feeds.", "");
@@ -199,7 +200,7 @@ River.methods = (function () {
         var nameEQ, ca, c, i = 0;
         nameEQ = name + "=";
         ca = document.cookie.split(';');
-        for(i; i < ca.length; i ++) {
+        for (i; i < ca.length; i ++) {
             c = ca[i];
             while (c.charAt(0) == ' ') c = c.substring(1, c.length);
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
