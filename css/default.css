@@ -14,29 +14,29 @@ Nicolas Gallagher - http://nicolasgallagher.com
 ** ------------------------------------------------------------------------------------------------------------- BASE
 ** ============================================================================================================= */
 
-html, 
-body, 
+html,
+body,
 div {
     padding:0;
     margin:0;
 }
 
 body {
-    font:100%/1 Arial, sans-serif; 
-    color:#333; 
+    font:100%/1 Arial, sans-serif;
+    color:#333;
     background:#fff;
 }
 
 /* ............................................................................................................. Links */
 
-a:link, 
+a:link,
 a:visited {
     text-decoration:none;
-    color:#1E68A6; 
+    color:#1E68A6;
 }
 
-a:hover, 
-a:focus, 
+a:hover,
+a:focus,
 a:active {
     text-decoration:underline;
 }
@@ -46,13 +46,13 @@ a:active {
 h1,
 h2,
 h3 {
-    line-height:1.1em; 
+    line-height:1.1em;
     color:#222;
 }
 
 p {
-    margin:0 0 1.4em; 
-    font-size:0.875em; 
+    margin:0 0 1.4em;
+    font-size:0.875em;
     line-height:1.4em;
 }
 
@@ -105,14 +105,14 @@ p {
 }
 
 .notice { /* loading and errors messages */
-    text-align:center; 
+    text-align:center;
     font-size:14px;
 }
 
 #loader { /* loading graphic */
-    width:32px; 
-    height:32px; 
-    margin:20px auto; 
+    width:32px;
+    height:32px;
+    margin:20px auto;
     background:url(../images/loader.gif) no-repeat 0 0;
 }
 
@@ -134,7 +134,7 @@ p {
 /* Feed's last update */
 
 #stream-updated {
-    float:right; 
+    float:right;
     margin:0;
     font-size:12px;
 }
@@ -142,19 +142,19 @@ p {
 /* Display options */
 
 #stream-view {
-    float:left; 
+    float:left;
     display:block;
-    font-size:12px; 
-    line-height:17px; 
+    font-size:12px;
+    line-height:17px;
     font-weight:bold;
 }
 
 #stream-view:before {
-    content:""; 
-    float:left; 
-    width:16px; 
-    height:16px; 
-    margin:0 6px 0 -22px; 
+    content:"";
+    float:left;
+    width:16px;
+    height:16px;
+    margin:0 6px 0 -22px;
     background:url(../images/sprite.png) no-repeat -16px 0;
 }
 
@@ -181,19 +181,19 @@ p {
 
 .section {
     clear:both;
-    padding:0.5em 0 0; 
-    border-top:1px solid #bbb; 
+    padding:0.5em 0 0;
+    border-top:1px solid #bbb;
     margin:1.5em 0 0;
 }
 
 .section h2,
 .section .header .time {
-    float:left; 
+    float:left;
     padding:0 8px 0 0;
-    margin:-17px 0 0 0; 
-    font-size:12px; 
-    font-weight:normal; 
-    line-height:1.2em; 
+    margin:-17px 0 0 0;
+    font-size:12px;
+    font-weight:normal;
+    line-height:1.2em;
     background:#fff;
 }
 
@@ -218,8 +218,8 @@ p {
 
 .article {
     clear:both;
-    position:relative; 
-    padding:10px 0; 
+    position:relative;
+    padding:10px 0;
     margin:0;
 }
 
@@ -230,7 +230,7 @@ p {
 /* Item title */
 
 .article h3 {
-    margin:0; 
+    margin:0;
     font-size:1em;
     color:#555;
 }
@@ -249,8 +249,8 @@ p {
 }
 
 .article .thumbnail {
-    float:left; 
-    /*border:1px solid #999;*/ 
+    float:left;
+    /*border:1px solid #999;*/
     margin:2px 8px 3px 0;
 }
 
@@ -259,7 +259,7 @@ p {
 .article .footer {
     clear:both;
     margin:0 20px 0 0;
-    font-size:0.6875em; 
+    font-size:0.6875em;
     color:#666;
 }
 
@@ -269,19 +269,19 @@ p {
 
 .actions {
     display:inline;
-    list-style:none; 
-    padding:0; 
-    margin:0; 
+    list-style:none;
+    padding:0;
+    margin:0;
 }
 
 .actions li {
-    display:inline; 
+    display:inline;
     margin:0 0 0 4px;
 }
 
 .actions li:before {
-    content:"\00b7"; 
-    font-weight:bold; 
+    content:"\00b7";
+    font-weight:bold;
     margin:0 4px 0 -2px;
 }
 

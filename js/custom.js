@@ -8,45 +8,45 @@ var River = River || {};
 
 // defaults
 River.defaults = {
-    url : 'http://daveriver.scripting.com/iowaRiver3.js',
+    url : 'http://static.scripting.com/houston/rivers/iowaRiver3.js',
     callback : 'onGetRiverStream',
     social : false
 };
 
 // generate and update stream
-River.generate = (function () { 
+River.generate = (function () {
     $(function () {
         River.generate.loading();
         River.generate.init(url, callback);
         River.generate.viewToggle();
     });
-    
+
     var url = River.settings.url || River.defaults.url,
         callback = River.settings.callback || River.defaults.callback,
         $template = $('#template'),
         $stream = $('#stream');
-        
+
     function _loading() {
         var source = River.methods.getDomain(url);
         $stream.html('<p class="notice">Loading news from <b>' + source + '</b>, please wait&hellip;</p><div id="loader"></div>');
     };
-    
+
     function _init(url, callback) {
         var count, lastItemId, newestItem, riverUpdated, timeoutMsg, errorMsg;
-        
+
         // get json feed data
-        $.ajax({ 
+        $.ajax({
             dataType : "jsonp",
             jsonpCallback : callback,
             url : url,
             timeout : 8000,
-            
+
             success : function (data, status) {
                 lastItemId = $('.article:first').attr('id');
                 count = 0;
                 newestItem = data.updatedFeeds.updatedFeed[0].item[0].id;
                 riverUpdated = dateFormat(data.metadata.whenGMT, 'timeDate');
-                
+
                 // if the stream is empty...
                 if ( ! lastItemId ) {
                     _populate(data);
@@ -55,9 +55,9 @@ River.generate = (function () {
                         _init(url, callback);
                     }, 300000);
                 }
-                
+
                 // otherwise...
-                else { 
+                else {
                     // check for new items
                     if ( lastItemId !== newestItem ) {
                         $.each(data.updatedFeeds.updatedFeed, function (f, feed) {
@@ -68,7 +68,7 @@ River.generate = (function () {
                                 }
                             });
                         });
-                        
+
                         // indicate that there are new items
                         var noticeText = ( (count <= 50) ? count : '50+' ) + ' new items';
                         $('#stream-notice').die().live('click', function (e) {
@@ -76,15 +76,15 @@ River.generate = (function () {
                             _populate(data, lastItemId);
                         }).text(noticeText).fadeSlideDown();
                         $('#stream-updated .time').text(riverUpdated);
-                    } 
-                    
+                    }
+
                     else {
                         $('#stream-updated .time').text(riverUpdated);
                     }
                 }
             },
-            
-            error : function (status) { 
+
+            error : function (status) {
                 var statusText = status.statusText;
 
                 // if the stream is empty...
@@ -102,7 +102,7 @@ River.generate = (function () {
         });
 
     };
-    
+
     // stream view toggle
     function _viewToggle() {
         $('body').delegate('#stream-view', 'click', function (e) {
@@ -110,13 +110,13 @@ River.generate = (function () {
             ( $stream.is('.collapsed') ) ? _expand() : _collapse();
         });
     };
-    
+
     // stream view setting
     function _viewSettings() {
         var viewCookie = River.methods.getCookie('river-view');
         ( viewCookie === 'collapsed' ) ? _collapse() : _expand();
     };
-    
+
     // pass data to template, populate stream, mark last item
     function _populate(data, marker) {
         var tmplOutput = $template.tmpl(data);
@@ -128,21 +128,21 @@ River.generate = (function () {
             $stream.find('#' + marker).addClass('last-old');
         }
     };
-    
+
     // expand stream items
     function _expand() {
         River.methods.setCookie('river-view', 'expanded', 30);
         $('#stream-view').text('Switch to collapsed view');
         $stream.removeClass('collapsed');
     };
-    
+
     // collapse stream items
     function _collapse() {
         River.methods.setCookie('river-view', 'collapsed', 30);
         $('#stream-view').text('Switch to expanded view');
         $stream.addClass('collapsed');
     };
-    
+
     return {
         loading : _loading,
         init : _init,
@@ -161,19 +161,19 @@ River.methods = (function () {
         }
         return domain;
     };
-    
+
     function _getFavicon(url) {
         return 'http://www.google.com/s2/favicons?domain=' + River.methods.getDomain(url);
     };
-    
+
     function _getText(html) {
         return $('<div>' + html + '</div>').text();
     };
-    
+
     function _getMediaType(type) {
         return type.split('/')[0];
     };
-    
+
     // http://blog.elctech.com/2009/01/06/convert-filesize-bytes-to-readable-string-in-javascript/
     function _getEnclosureSize(bytes) {
         var s, e, t;
@@ -182,7 +182,7 @@ River.methods = (function () {
         t = (bytes / Math.pow(1024, Math.floor(e))).toFixed(2) + " " + s[e];
         return t;
     };
-    
+
     // http://www.quirksmode.org/js/cookies.html
     function _setCookie(name, value, days) {
         var date, expires;
@@ -190,7 +190,7 @@ River.methods = (function () {
             date = new Date();
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             expires = "; expires=" + date.toGMTString();
-        } else { 
+        } else {
             expires = "";
         }
         document.cookie = name + "=" + value + expires + "; path=/";
@@ -211,7 +211,7 @@ River.methods = (function () {
     function _deleteCookie(name) {
         setCookie(name, "", -1);
     };
-    
+
     // Modified from http://ejohn.org/blog/javascript-pretty-date/#comment-297458
     function _prettyDate(date) {
         var date, seconds, formats, i = 0, f;
@@ -229,20 +229,20 @@ River.methods = (function () {
             [1209600, '1 week ago'],
             [2678400, 'weeks', 604800]
         ];
-        
+
         while (f = formats[i ++]) {
             if (seconds < f[0]) {
                 return f[2] ? Math.floor(seconds / f[2]) + ' ' + f[1] + ' ago' :  f[1];
             }
             // Crude fix for feed items with incorrect pubDate (i.e. 01 Dec 1999)
-            // look for anything over 10 years old 
+            // look for anything over 10 years old
             if (seconds > 315569260) {
                 return 'Recently';
             }
         }
-        return dateFormat(date, 'longDate');    
+        return dateFormat(date, 'longDate');
     };
-    
+
     return {
         getDomain : _getDomain,
         getFavicon : _getFavicon,
@@ -348,13 +348,13 @@ var dateFormat = function () {
 			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
 		});
 	};
-    
+
     return finalDate;
 }();
 
 // Some common format strings
 dateFormat.masks = {
-	"default":      "HH:MM:ss dd mmm yyyy ", // 17:46:21 09 Jun 2007 
+	"default":      "HH:MM:ss dd mmm yyyy ", // 17:46:21 09 Jun 2007
 	shortDate:      "m/d/yy", // 6/9/07
 	mediumDate:     "d mmm yyyy", // 9 Jun 2007
 	longDate:       "d mmmm yyyy", // 9 June 2007
@@ -366,7 +366,7 @@ dateFormat.masks = {
 	isoTime:        "HH:MM:ss", // 17:46:21
 	isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss", // 2007-06-09T17:46:21
 	isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'", // 2007-06-09T22:46:21Z
-    
+
     timeDate:       "dd mmm; h:MM TT" // 09 Jun; 5:46:21 PM
 };
 
