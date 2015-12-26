@@ -1,5 +1,7 @@
 #  NewsRiver UI
 
+![unmaintained](http://img.shields.io/badge/status-unmaintained-red.png)
+
 This is a client-side, river of news UI that consumes a JSONP file generated using Dave Winer's [River2](http://newsriver.org/river2.html) software.
 
 Example: [http://river.nicolasgallagher.com](http://river.nicolasgallagher.com)
